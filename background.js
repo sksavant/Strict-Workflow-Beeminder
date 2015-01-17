@@ -352,6 +352,18 @@ var notification, mainPomodoro = new Pomodoro({
   }
 });
 
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+  if(message.popupOpen) {
+    if(mainPomodoro.running) { 
+      if(PREFS.clickRestarts) {
+          mainPomodoro.restart();
+      }
+    } else {
+      mainPomodoro.start();
+    }
+  }
+});
+
 chrome.browserAction.onClicked.addListener(function (tab) {
   if(mainPomodoro.running) { 
       if(PREFS.clickRestarts) {
