@@ -142,6 +142,15 @@ function Pomodoro(options) {
     this.running = true;
     this.currentTimer = new Pomodoro.Timer(this, timerOptions);
     this.currentTimer.start();
+
+    jQuery.ajax({
+    type: "POST",
+    url: "https://www.beeminder.com/api/v1/users/",
+    data: {"auth_token": "","value": 5,"comment":"pomodoro"},
+    success: function(data) {
+        console.log(data);
+    }
+});
   }
   
   this.restart = function () {
