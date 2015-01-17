@@ -128,7 +128,7 @@ function Pomodoro(options) {
   this.onTimerEnd = function (timer) {
     this.running = false;
 
-    if (this.mostRecentMode == 'work') {
+    /*if (this.mostRecentMode == 'work') {
       jQuery.ajax({
       type: "POST",
       url: "https://www.beeminder.com/api/v1/users/USER_ENDPOINT_HERE",
@@ -137,7 +137,7 @@ function Pomodoro(options) {
             console.log(data);
         }
       });
-    }
+    }*/
     
   }
 
