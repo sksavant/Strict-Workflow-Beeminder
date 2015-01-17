@@ -127,6 +127,18 @@ function Pomodoro(options) {
 
   this.onTimerEnd = function (timer) {
     this.running = false;
+
+    if (this.mostRecentMode == 'work') {
+      jQuery.ajax({
+      type: "POST",
+      url: "https://www.beeminder.com/api/v1/users/USER_ENDPOINT_HERE",
+      data: {"auth_token": "AUTH_TOKEN_HERE","value": 1,"comment":"via strict workflow"},
+        success: function(data) {
+            console.log(data);
+        }
+      });
+    }
+    
   }
 
   this.start = function () {
@@ -142,15 +154,6 @@ function Pomodoro(options) {
     this.running = true;
     this.currentTimer = new Pomodoro.Timer(this, timerOptions);
     this.currentTimer.start();
-
-    jQuery.ajax({
-    type: "POST",
-    url: "https://www.beeminder.com/api/v1/users/",
-    data: {"auth_token": "","value": 5,"comment":"pomodoro"},
-    success: function(data) {
-        console.log(data);
-    }
-});
   }
   
   this.restart = function () {
