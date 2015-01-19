@@ -300,6 +300,10 @@ function executeInAllBlockedTabs(action) {
   });
 }
 
+function logComment (comment) {
+  console.log(comment);
+}
+
 var notification, mainPomodoro = new Pomodoro({
   getDurations: function () { return PREFS.durations },
   timer: {
