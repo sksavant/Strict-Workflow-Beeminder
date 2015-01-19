@@ -132,7 +132,7 @@ function Pomodoro(options) {
     if (this.mostRecentMode == 'work') {
       jQuery.ajax({
       type: "POST",
-      url: "https://www.beeminder.com/api/v1/users/USER_ENDPOINT_HERE",
+      url: "https://www.beeminder.com/api/v1/users/$USERNAME/goals/$GOALNAME/datapoints.json",
       data: {"auth_token": "AUTH_TOKEN_HERE","value": 1,"comment":this.comment},
         success: function(data) {
             console.log(data);
