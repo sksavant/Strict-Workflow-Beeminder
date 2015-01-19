@@ -3,8 +3,7 @@ var BGPage = chrome.extension.getBackgroundPage();
 
 function saveComment () {
 	var comment = document.getElementById('comment').value;
-	BGPage.logComment(comment);
-	chrome.runtime.sendMessage
+	chrome.runtime.sendMessage({comment: comment});
 }
 
 document.addEventListener('DOMContentLoaded', function () {

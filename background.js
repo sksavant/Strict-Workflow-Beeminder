@@ -124,20 +124,21 @@ function Pomodoro(options) {
   this.mostRecentMode = 'break';
   this.nextMode = 'work';
   this.running = false;
+  this.comment = '';
 
   this.onTimerEnd = function (timer) {
     this.running = false;
 
-    /*if (this.mostRecentMode == 'work') {
+    if (this.mostRecentMode == 'work') {
       jQuery.ajax({
       type: "POST",
       url: "https://www.beeminder.com/api/v1/users/USER_ENDPOINT_HERE",
-      data: {"auth_token": "AUTH_TOKEN_HERE","value": 1,"comment":"via strict workflow"},
+      data: {"auth_token": "AUTH_TOKEN_HERE","value": 1,"comment":this.comment},
         success: function(data) {
             console.log(data);
         }
       });
-    }*/
+    }
     
   }
 
@@ -365,6 +366,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     } else {
       mainPomodoro.start();
     }
+  }
+  else if (message.comment){
+    mainPomodoro.comment = message.comment;
   }
 });
 
