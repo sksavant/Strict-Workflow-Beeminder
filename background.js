@@ -359,6 +359,9 @@ var notification, mainPomodoro = new Pomodoro({
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
   if(message.popupOpen) {
+
+    chrome.runtime.sendMessage({displayComment: mainPomodoro.comment});
+
     if(mainPomodoro.running) { 
       if(PREFS.clickRestarts) {
           mainPomodoro.restart();

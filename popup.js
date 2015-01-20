@@ -9,3 +9,10 @@ function saveComment () {
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('save').addEventListener('click',saveComment);
 });
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+	if (message.displayComment) {
+		document.getElementById('comment').value = message.displayComment;
+	}
+
+});
