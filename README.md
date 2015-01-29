@@ -2,7 +2,7 @@
 A Chrome extension that helps you stay focused by blocking sites during work timers and letting you browse during break timers. Now also logs work sessions automatically to beeminder.
 
 ## Setup
-1. Clone the repository.
+1. Clone the repository. If you're not familiar with the command line, you can do this by clicking "clone in desktop" and using the github desktop client or just download the zip file from the link on the right hand side of the repository.
 2. Edit background.js and replace the url "https://www.beeminder.com/api/v1/users/$USERNAME/goals/$GOALNAME/datapoints.json" with your username and desired goal (omit the $).
 3. Replace "AUTH_TOKEN_HERE" with your authentication token. (To find your authentication token, log in to beeminder and point your web browser to https://www.beeminder.com/api/v1/auth_token.json)
 4. Open Chrome and go to your extensions page (chrome://extensions).
