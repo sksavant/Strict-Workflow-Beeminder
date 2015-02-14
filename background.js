@@ -136,21 +136,21 @@ function Pomodoro(options) {
       data: {"auth_token": "AUTH_TOKEN_HERE","value": 1,"comment":this.comment},
       tryCount: 0,
       retryLimit: 5,
-				success: function(data) {
+	success: function(data) {
           console.log(data);
         },
-				error: function(jqXHR, textStatus, errorThrown) {
-	        this.tryCount++;
-	        if (this.tryCount <= this.retryLimit) {
-					  $.ajax(this);
-					  return;
-	        }
-	        var info = "An error occurred.\n" + "textStatus: " + textStatus
-					+ "\nerrorThrown: " + errorThrown;
-	        var advice = "\nEdit background.js with your beeminder "
-					+ "username, goalname, and auth token if you haven't already."
- 	        alert(info + advice);
-	      }
+        error: function(jqXHR, textStatus, errorThrown) {
+	  this.tryCount++;
+	  if (this.tryCount <= this.retryLimit) {
+	    $.ajax(this);
+	    return;
+	  }
+	  var info = "An error occurred.\n" + "textStatus: " + textStatus
+	    + "\nerrorThrown: " + errorThrown;
+	  var advice = "\nEdit background.js with your beeminder "
+	    + "username, goalname, and auth token if you haven't already."
+ 	  alert(info + advice);
+	}
       });
     }
     
