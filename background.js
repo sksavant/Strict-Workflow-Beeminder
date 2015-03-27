@@ -37,7 +37,10 @@ function defaultPrefs() {
     },
     shouldRing: true,
     clickRestarts: false,
-    whitelist: false
+    whitelist: false,
+    userName: '',
+    authToken: '',
+    goal: ''
   }
 }
 
@@ -125,15 +128,21 @@ function Pomodoro(options) {
   this.nextMode = 'work';
   this.running = false;
   this.comment = '';
+  this.splitComment = '';
+  this.goal = PREFS.goal;
 
   this.onTimerEnd = function (timer) {
     this.running = false;
 
     if (this.mostRecentMode == 'work') {
+      var url = 'https://www.beeminder.com/api/v1/users/' + PREFS.userName 
+                                                       + '/goals/' + this.goal + '/datapoints.json';
+      console.log(url); 
+      
       jQuery.ajax({
       type: "POST",
-      url: "https://www.beeminder.com/api/v1/users/$USERNAME/goals/$GOALNAME/datapoints.json",
-      data: {"auth_token": "AUTH_TOKEN_HERE","value": 1,"comment":this.comment},
+      url: url,
+      data: {"auth_token": PREFS.authToken,"value": 1,"comment":this.splitComment},
       tryCount: 0,
       retryLimit: 5,
 	success: function(data) {
@@ -147,7 +156,7 @@ function Pomodoro(options) {
 	  }
 	  var info = "An error occurred.\n" + "textStatus: " + textStatus
 	    + "\nerrorThrown: " + errorThrown;
-	  var advice = "\nEdit background.js with your beeminder "
+	  var advice = "\nEdit the options page with your beeminder "
 	    + "username, goalname, and auth token if you haven't already."
  	  alert(info + advice);
 	}
@@ -386,6 +395,18 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
   }
   else if (message.comment){
     mainPomodoro.comment = message.comment;
+    var patt = new RegExp(/\S*\s*#(\w+)/);
+    var res = patt.exec(mainPomodoro.comment);
+
+    if (res) {
+      mainPomodoro.goal = res[1];
+    }
+    else {
+      mainPomodoro.goal = PREFS.goal;
+    }    
+
+    var splits = mainPomodoro.comment.split(/\s*#/);
+    mainPomodoro.splitComment = splits[0];                                            
   }
 });
 

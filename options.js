@@ -29,7 +29,10 @@ var form = document.getElementById('options-form'),
   saveSuccessfulEl = document.getElementById('save-successful'),
   timeFormatErrorEl = document.getElementById('time-format-error'),
   background = chrome.extension.getBackgroundPage(),
-  startCallbacks = {}, durationEls = {};
+  startCallbacks = {}, durationEls = {},
+  userNameEl = document.getElementById('username'),
+  authTokenEl = document.getElementById('authtoken'),
+  goalEl = document.getElementById('goal');
   
 durationEls['work'] = document.getElementById('work-duration');
 durationEls['break'] = document.getElementById('break-duration');
@@ -63,7 +66,10 @@ form.onsubmit = function () {
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
     clickRestarts:      clickRestartsEl.checked,
-    whitelist:          whitelistEl.selectedIndex == 1
+    whitelist:          whitelistEl.selectedIndex == 1,
+    userName:           userNameEl.value,
+    authToken:          authTokenEl.value,
+    goal:               goalEl.value
   })
   saveSuccessfulEl.className = 'show';
   return false;
@@ -100,6 +106,10 @@ for(var key in durationEls) {
   }
   durationEls[key].onfocus = formAltered;
 }
+
+userNameEl.value = background.PREFS.userName;
+authTokenEl.value = background.PREFS.authToken;
+goalEl.value = background.PREFS.goal;
 
 function setInputDisabled(state) {
   siteListEl.disabled = state;
