@@ -100,5 +100,17 @@
         "example": "work"
       }
     }
+  },
+  "username": {
+    "message": "Username",
+    "description": "Beeminder username"
+  },
+  "authtoken": {
+    "message": "Auth Token",
+    "description": "Beeminder authentication token"
+  },
+  "goal": {
+    "message": "Goal",
+    "description": "Beeminder goal"
   }
 }
