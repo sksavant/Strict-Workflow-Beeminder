@@ -385,6 +385,46 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 
     chrome.runtime.sendMessage({displayComment: mainPomodoro.comment});
 
+    var userUrl = 'https://www.beeminder.com/api/v1/users/' + PREFS.userName + '.json';
+    var todayTime = 1427673600;
+
+    jQuery.ajax({
+      type: "GET",
+      url: userUrl,
+      data: {"auth_token": PREFS.authToken,"diff_since": todayTime},
+      tryCount: 0,
+      retryLimit: 5,
+  success: function(data) {
+          var value = 0;
+
+          for (goal in data.goals) {
+            
+            var goalObj = data.goals[goal];
+
+            if (goalObj.slug == mainPomodoro.goal) {
+              for (datapoint in goalObj.datapoints){
+                value += goalObj.datapoints[datapoint].value;
+              }
+              console.log(value);
+              chrome.runtime.sendMessage({value: value});
+            }
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+    this.tryCount++;
+    if (this.tryCount <= this.retryLimit) {
+      $.ajax(this);
+      return;
+    }
+    var info = "An error occurred.\n" + "textStatus: " + textStatus
+      + "\nerrorThrown: " + errorThrown;
+    var advice = "\nEdit the options page with your beeminder "
+      + "username, goalname, and auth token if you haven't already."
+    alert(info + advice);
+  }
+      });
+
+
     if(mainPomodoro.running) { 
       if(PREFS.clickRestarts) {
           mainPomodoro.restart();
