@@ -14,5 +14,13 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	if (message.displayComment) {
 		document.getElementById('comment').value = message.displayComment;
 	}
+	if (message.value) {
+		if (message.value == 1){
+			document.getElementById('doneToday').innerHTML = "You have completed " + message.value + " pomodoro today.";	
+		}
+		else {
+			document.getElementById('doneToday').innerHTML = "You have completed " + message.value + " pomodoros today.";
+		}
+	}
 
 });
