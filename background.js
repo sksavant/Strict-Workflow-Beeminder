@@ -385,9 +385,28 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 
     chrome.runtime.sendMessage({displayComment: mainPomodoro.comment});
 
+    // Get the number of pomodoros done today
     var userUrl = 'https://www.beeminder.com/api/v1/users/' + PREFS.userName + '.json';
-    var todayTime = 1427673600;
 
+    // Generate dateString to only count pomodoros from today
+    var todayDate = new Date();
+    var yyyy = todayDate.getFullYear();
+    var mm = todayDate.getMonth() + 1;
+    var dd = todayDate.getDate();
+
+    if (dd<10) {
+      dd='0'+dd;
+    }
+
+    if (mm<10) {
+      mm = '0'+mm;
+    }
+
+    var dateString = yyyy+mm+dd;
+
+    var todayTime = Math.round(todayDate.getTime()/1000 - 86400);// check up to 24 hrs before current time
+    
+    // Query user and add up all pomodoros since todayTime that match the dateString
     jQuery.ajax({
       type: "GET",
       url: userUrl,
@@ -395,6 +414,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
       tryCount: 0,
       retryLimit: 5,
   success: function(data) {
+          console.log(data);
           var value = 0;
 
           for (goal in data.goals) {
@@ -403,7 +423,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 
             if (goalObj.slug == mainPomodoro.goal) {
               for (datapoint in goalObj.datapoints){
-                value += goalObj.datapoints[datapoint].value;
+                if (dateString == goalObj.datapoints[datapoint].daystamp){
+                  value += goalObj.datapoints[datapoint].value;
+                }
               }
               console.log(value);
               chrome.runtime.sendMessage({value: value});
