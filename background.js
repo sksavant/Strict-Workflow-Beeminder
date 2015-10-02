@@ -397,10 +397,14 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     if (dd<10) {
       dd='0'+dd;
     }
+    else
+      dd=dd.toString();
 
     if (mm<10) {
       mm = '0'+mm;
     }
+    else
+      mm=mm.toString();
 
     var dateString = yyyy+mm+dd;
 
