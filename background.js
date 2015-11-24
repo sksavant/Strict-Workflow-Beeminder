@@ -139,10 +139,11 @@ function Pomodoro(options) {
                                                        + '/goals/' + this.goal + '/datapoints.json';
       console.log(url); 
       
+      var time_value = options.getDurations()['work']/3600
       jQuery.ajax({
       type: "POST",
       url: url,
-      data: {"auth_token": PREFS.authToken,"value": 1,"comment":this.splitComment},
+      data: {"auth_token": PREFS.authToken,"value": time_value,"comment":this.splitComment},
       tryCount: 0,
       retryLimit: 5,
 	success: function(data) {
